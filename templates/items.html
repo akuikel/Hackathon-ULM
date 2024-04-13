@@ -3,58 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Items List</title>
+    <title>Items</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 0;
         }
         h1 {
+            text-align: center;
             color: #333;
+            margin-top: 20px;
+        }
+        nav {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
             text-align: center;
         }
-        .item {
+        nav a {
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        form {
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #ccc;
+            text-align: center;
         }
-        .item:last-child {
-            border-bottom: none;
+        label {
+            font-weight: bold;
+            margin-right: 10px;
         }
-        img {
-            width: 100%; /* Responsive images */
+        select {
+            padding: 8px;
+            margin: 0 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        li img {
+            width: 100%;
             height: auto;
-            border-radius: 8px;
+            margin-top: 10px;
+            border-radius: 5px;
         }
-        p {
-            color: #555;
+        li strong {
+            color: #007bff;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
         }
-        h3 {
-            color: #333;
+        li p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .category {
+            font-size: 14px;
+            color: #666;
+        }
+        .claim-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            padding: 8px 0;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
         }
     </style>
+
 </head>
 <body>
-    <div class="container">
-        <h1>Items List</h1>
+    <!-- Your existing navigation bar -->
+
+    <nav>
+        <a href="{{ url_for('items') }}">Home</a>
+        <a href="{{ url_for('add_item') }}">Add Item</a>
+        <a href="{{ url_for('messages') }}">Messages</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    
+    <h1>Items</h1>
+    <form action="/items" method="post">
+        <!-- Your existing category sorting form -->
+    </form>
+    <ul>
         {% for item in items %}
-            <div class="item">
-                <h3>{{ item.name }}</h3>
+            <li>
+                <strong>{{ item.name }}</strong>
                 <p>{{ item.description }}</p>
-                {% if item.image_path %}
-                    <img src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Image of {{ item.name }}">
+                <p class="category">Category: {{ item.category }}</p>
+                <img src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Item Image">
+                {% if item.user_id != session['user_id'] %}  <!-- Check if the item was not posted by the current user -->
+                    <a href="{{ url_for('claim_item', item_id=item.id) }}" class="claim-button">Claim This Item</a>
                 {% endif %}
-            </div>
+            </li>
         {% endfor %}
-    </div>
+    </ul>
 </body>
 </html>

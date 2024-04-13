@@ -15,6 +15,12 @@
         <input type="text" id="name" name="name" required>
         <label for="description">Description:</label>
         <input type="text" id="description" name="description" required>
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
         <label for="image">Upload Image:</label>
         <input type="file" id="image" name="image" accept=".jpg, .jpeg, .png, .gif">
         <button type="submit">Add Item</button>

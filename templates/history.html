@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History of Claims</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('items') }}">Home</a>
+        <a href="{{ url_for('add_item') }}">Add Item</a>
+        <a href="{{ url_for('messages') }}">Messages</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    <h1>History of My Claims</h1>
+    <ul>
+        {% for claim in claims %}
+        <li>
+            <h2>{{ claim.item.name }}</h2>
+            <p>Description: {{ claim.description }}</p>
+            <p>Status: {{ claim.status if claim.status else 'Pending' }}</p>
+            <p>Claimed on: {{ claim.created_at.strftime('%Y-%m-%d') }}</p>
+            {% if claim.status == 'approved' %}
+            <p>Poster Name: {{ claim.item.user.name }}</p>
+            <p>Poster Email: {{ claim.item.user.email }}</p>
+            <!-- Redirect to chat route when the button is clicked -->
+            <a href="{{ url_for('chat', receiver=claim.item.user.username) }}" class="chat-button">Chat with Poster</a>
+            {% endif %}
+        </li>
+        {% else %}
+        <p>No claims have been made yet.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>

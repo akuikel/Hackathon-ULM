@@ -1,0 +1,19 @@
+<!-- claims.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Item</title>
+</head>
+<body>
+    <h1>Claim Item: {{ item.name }}</h1>
+    <form action="{{ url_for('claim_item', item_id=item.id) }}" method="post" enctype="multipart/form-data">
+        <label for="message">Your Claim Message:</label>
+        <input type="text" id="message" name="message" required>
+        <label for="proof">Upload Proof:</label>
+        <input type="file" id="proof" name="proof" accept="image/*">
+        <button type="submit">Submit Claim</button>
+    </form>
+</body>
+</html>
