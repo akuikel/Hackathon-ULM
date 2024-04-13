@@ -44,7 +44,7 @@
         }
         li {
             background-color: #fff;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 10px;
             margin: 10px;
             padding: 20px;
@@ -86,7 +86,7 @@
         }
         .chat-button {
             display: block;
-            width: 100%;
+            width: 90%;
             text-align: center;
             margin-top: 10px;
         }
@@ -105,34 +105,32 @@
     <h1>Messages</h1>
     <ul>
         {% for item in items %}
-        <h2>Claims for: {{ item.name }}</h2>
-        {% if item.claims|length > 0 %}
-            {% for claim in item.claims %}
             <li>
-                <!-- Fetch user information using claimer_id -->
-                {% set user = User.query.get(claim.claimer_id) %}
-                <p>Claimed by: {{ user.name }}</p> <!-- Display the name of the user -->
-                <p>Description: {{ claim.description }}</p>
-                <p>Status: {{ claim.status }}</p>
-                <p>Proof:</p>
-                <img src="{{ url_for('static', filename='proofs/' + claim.proof_image_path) }}" alt="Proof Image">
-                <!-- Approval form -->
-                <form action="{{ url_for('update_claim_status', claim_id=claim.id, status='approved') }}" method="post">
-                    <button type="submit">Approve</button>
-                </form>
-                <!-- Decline form -->
-                <form action="{{ url_for('update_claim_status', claim_id=claim.id, status='rejected') }}" method="post">
-                    <button type="submit">Decline</button>
-                </form>
-                {% if claim.status == 'approved' %}
-                <!-- Redirect to chat route when the button is clicked -->
-                <a href="{{ url_for('chat', receiver=user.username) }}" class="chat-button">Chat with Claimer</a>
+                <h2>Claims for: {{ item.name }}</h2>
+                {% if item.claims|length > 0 %}
+                    {% for claim in item.claims %}
+                        <div>
+                            {% set user = User.query.get(claim.claimer_id) %}
+                            <p>Claimed by: {{ user.name }}</p>
+                            <p>Description: {{ claim.description }}</p>
+                            <p>Status: {{ claim.status }}</p>
+                            <p>Proof:</p>
+                            <img src="{{ url_for('static', filename='proofs/' + claim.proof_image_path) }}" alt="Proof Image">
+                            <form action="{{ url_for('update_claim_status', claim_id=claim.id, status='approved') }}" method="post">
+                                <button type="submit">Approve</button>
+                            </form>
+                            <form action="{{ url_for('update_claim_status', claim_id=claim.id, status='rejected') }}" method="post">
+                                <button type="submit">Decline</button>
+                            </form>
+                            {% if claim.status == 'approved' %}
+                                <a href="{{ url_for('chat', receiver=user.username) }}" class="chat-button">Chat with Claimer</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No claims have been made for this item.</p>
                 {% endif %}
             </li>
-            {% endfor %}
-        {% else %}
-            <p>No claims have been made for this item.</p>
-        {% endif %}
         {% else %}
             <p>None</p>
         {% endfor %}

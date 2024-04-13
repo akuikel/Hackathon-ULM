@@ -129,9 +129,13 @@
                 <p>{{ item.description }}</p>
                 <p class="category">Category: {{ item.category }}</p>
                 <img src="{{ url_for('static', filename='uploads/' + item.image_path) }}" alt="Item Image">
-                {% if item.user_id != session['user_id'] %}  <!-- Check if the item was not posted by the current user -->
-                    <a href="{{ url_for('claim_item', item_id=item.id) }}" class="claim-button">Claim This Item</a>
-                {% endif %}
+                {% if item.user_id == session['user_id'] %}  <!-- Check if the item was posted by the current user -->
+                <form action="{{ url_for('delete_item', item_id=item.id) }}" method="post" style="margin-top: 10px;">
+                    <button type="submit" class="delete-button">Delete This Item</button>
+                </form>
+            {% else %}
+                <a href="{{ url_for('claim_item', item_id=item.id) }}" class="claim-button">Claim This Item</a>
+            {% endif %}
             </li>
         {% endfor %}
     </ul>

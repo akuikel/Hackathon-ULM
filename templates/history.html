@@ -44,9 +44,13 @@
             padding: 20px;
             width: 90%;
             max-width: 600px;
-            text-align: left;
+            display: flex; /* Flexbox layout */
+            align-items: center; /* Vertically aligns items in the center */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        .content {
+            flex-grow: 1; /* Allows text content to fill the space */
+        }        
         .chat-button {
             display: block;
             width: 100%;
@@ -73,18 +77,22 @@
     <ul>
         {% for claim in claims %}
         <li>
-            <h2>{{ claim.item.name }}</h2>
-            <p>Description: {{ claim.description }}</p>
-            <p>Status: {{ claim.status if claim.status else 'Pending' }}</p>
-            <p>Claimed on: {{ claim.created_at.strftime('%Y-%m-%d') }}</p>
-            {% if claim.status == 'approved' %}
-            <p>Poster Name: {{ claim.item.user.name }}</p>
-            <p>Poster Email: {{ claim.item.user.email }}</p>
-            <a href="{{ url_for('chat', receiver=claim.item.user.username) }}" class="chat-button">Chat with Poster</a>
-            {% endif %}
+            <div class="content">
+                <h2>{{ claim.item.name }}</h2>
+                <p>Description: {{ claim.description }}</p>
+                <p>Status: {{ claim.status if claim.status else 'Pending' }}</p>
+                <p>Claimed on: {{ claim.created_at.strftime('%Y-%m-%d') }}</p>
+                {% if claim.status == 'approved' %}
+                <p>Poster Name: {{ claim.item.user.name }}</p>
+                <p>Poster Email: {{ claim.item.user.email }}</p>
+                <a href="{{ url_for('chat', receiver=claim.item.user.username) }}" class="chat-button">Chat with Poster</a>
+                {% endif %}
+            </div>
+            <img src="{{ url_for('static', filename='proofs/' + claim.proof_image_path) }}" alt="Proof Image" style="width: 350px; height: 350px; margin-left: 20px; object-fit: cover; border-radius: 4px;">
+
         </li>
         {% else %}
-        <p>No claims have been made yet.</p>
+        <p>You have not made any claims.</p>
         {% endfor %}
     </ul>
 </body>

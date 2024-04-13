@@ -219,6 +219,23 @@ def claim_item(item_id):
             flash('Invalid file type.', 'error')
     return render_template('claims.html', item=item)
 
+@app.route('/delete_item/<int:item_id>', methods=['POST'])
+def delete_item(item_id):
+    # Check if the user is logged in and owns the item
+    if 'user_id' not in session:
+        # Handle not logged in error or redirect
+        return redirect(url_for('login'))
+    
+    item = Item.query.get(item_id)
+    if item and item.user_id == session['user_id']:
+        db.session.delete(item)
+        db.session.commit()
+        # After deletion, redirect to a suitable page
+        return redirect(url_for('items'))
+    else:
+        # Handle error if item does not exist or user does not own it
+        return "Error: Item not found or user not authorized to delete this item", 403
+
 @app.route('/history')
 def history():
     if 'user_id' not in session:
@@ -262,6 +279,6 @@ def update_claim_status(claim_id, status):
 # Run the application
 if __name__ == "__main__":
     with app.app_context():
-        db.drop_all()
+     #   db.drop_all()
         db.create_all()
     app.run(debug=True)
