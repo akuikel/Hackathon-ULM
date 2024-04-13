@@ -3,16 +3,489 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Lost and Found</title>
+    <style>
+        :root {
+            --first-color:  #0e2431;
+            --second-color: #270db8;
+            --third-color: #777;
+            --hover-color: #240cc3;
+            --body-bg-color: #fefefe;
+            --card-bg-color: #fff;
+            --modal-bg-color: #fff;
+            --bg-transparent-color: rgba(0, 0, 0, 0.1);
+            --transparent-color-01: rgba(0, 0, 0, 0.1);
+            --transparent-color-02: rgba(106, 89, 209, 0.1);
+            --line-color: #d7d7d7;
+            --color-filter: invert(1);
+            --box-shadow: 0px 0px 20px rgb(0 0 0 / 10%);
+            --small-font-size: 0.9em;
+            --normal-font-size: 1em;
+            --scroll-bar-color: #c5cadf;
+            --scroll-thumb-color: #70768a;
+            --scroll-thumb-hover-color: #454f6b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Raleway', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            color: var(--first-color);
+            background: var(--body-bg-color);
+            transition: 0.5s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            z-index: 9999999;
+            width: 100%;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            transition: 0.6s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        header .container {
+            padding: 20px 0;
+        }
+
+        nav ul {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        div nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+            height: 5px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+        }
+
+        .nav-items a {
+            text-decoration: none;
+            color: var(--first-color);
+            font-size: var(--normal-font-size);
+            font-weight: 500;
+            margin-right: 50px;
+        }
+
+        .nav-items a:hover {
+            color: var(--second-color);
+        }
+
+        .hero {
+            margin-top: 100px;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .subheading {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--second-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            animation: moveUpDown 2s infinite;
+        }
+
+        @keyframes moveUpDown {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .btn:hover {
+            background-color: var(--hover-color);
+        }
+
+        .quotes {
+            padding: 50px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .quote {
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: var(--card-bg-color);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+
+        .quote img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: var(--second-color);
+            width: 100%;
+            margin-top: 50px;
+            padding: 3rem 2rem;
+            color: #fff;
+        }
+
+        footer a {
+            color: #fff;
+        }
+
+        /*--------------------abount-----------------------*/
+        .aboutus {
+            padding: 80px 0;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .aboutus h2 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: shadowAnimation 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes shadowAnimation {
+            from {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            to {
+                text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #learnMoreBtn {
+            background-color: #270db8;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #learnMoreBtn:hover {
+            background-color: #240cc3;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        #learnMoreBtn {
+            animation: pulse 1s infinite;
+        }
+
+        .aboutus p {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .aboutus ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+
+        .aboutus ul li {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .aboutus a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #270db8;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .aboutus a:hover {
+            background-color: #240cc3;
+        }
+
+        @media (max-width: 768px) {
+            .aboutus {
+                padding: 60px 0;
+            }
+
+            .aboutus h2 {
+                font-size: 2em;
+            }
+
+            .aboutus p {
+                font-size: 1em;
+            }
+        }
+
+        .footer-container .about h2 {
+            font-size: 1.5em;
+            font-weight: 600;
+            background: linear-gradient(to top, transparent 0%, #fff 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .footer-container .about p {
+            font-weight: 300;
+            font-size: var(--normal-font-size);
+            margin-bottom: 30px;
+        }
+
+        .footer-container .info,
+        .footer-container .follow {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .footer-container .info h3,
+        .footer-container .follow h3 {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .footer-container .info ul,
+        .footer-container .follow ul {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer-container .info a {
+            margin: 20px;
+            text-decoration: none;
+        }
+
+        .footer-container .follow a {
+            font-size: 1.5em;
+            margin: 20px;
+        }
+
+        .footer-copyright p {
+            font-size: var(--normal-font-size);
+            font-weight: 300;
+            margin-top: 50px;
+        }
+
+        .about a {
+            text-decoration: none;
+        }
+
+        .footer-container .info ul,
+        .footer-container .follow ul {
+            display: flex;
+            justify-content: space-between;
+            list-style-type: none;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            flex-direction: row;
+            align-items: flex-start;
+        }
+
+        .footer-container .footer-copyright {
+            margin-top: 30px;
+        }
+
+        footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/068b2da832.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
-    <h1>Welcome to the Lost and Found!</h1>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('login') }}">Login</a></li>
-            <li><a href="{{ url_for('register') }}">Register</a></li>
-            <li><a href="{{ url_for('items') }}">View Items</a></li>
+<header>
+    <div class="container">
+        <nav>
+            <i class="fa-solid fa-users-viewfinder"></i>
+            <ul>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Sign Up</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>Welcome to Lost and Found</h1>
+        <p class="subheading">Bringing lost items back to their owners.</p>
+        <a href="#" class="btn">Get Started</a>
+    </div>
+</section>
+
+<section class="quotes">
+    <div class="container">
+        <div class="quote">
+            <i class="fa-solid fa-user"></i>
+            <p>"Lost and Found - Bringing lost items back to their owners."</p>
+            <p>- John Doe</p>
+        </div>
+        <div class="quote">
+            <i class="fa-solid fa-user"></i>
+            <p>"A platform to reunite people with their lost belongings."</p>
+            <p>- Jane Smith</p>
+        </div>
+        <!-- Add more quotes as needed -->
+    </div>
+</section>
+
+<section class="aboutus">
+    <div class="container">
+        <h2>About Lost and Found</h2>
+        <p>Before Lost and Found, losing valuable items could be a stressful and frustrating experience. People often had limited options for finding their lost belongings, relying on word-of-mouth, physical bulletin boards, or lost and found departments.</p>
+        <p>Lost and Found was developed to address this problem by providing a centralized platform for reporting lost items and connecting with their owners. Our platform utilizes advanced search algorithms and user-friendly interfaces to streamline the process of reuniting people with their lost belongings.</p>
+        <p id="additionalContent" class="hidden">Using Lost and Found offers numerous benefits, including:</p>
+        <ul id="benefitsList" class="hidden">
+            <li>Efficient and convenient reporting of lost items</li>
+            <li>Quick and accurate search functionality to locate lost belongings</li>
+            <li>Increased chances of reuniting with lost items through a large user base</li>
+            <li>Enhanced security and privacy features to protect user information</li>
+            <li>24/7 access to the platform from any device with internet connection</li>
         </ul>
-    </nav>
+        <p id="cta" class="hidden">Join Lost and Found today to experience the peace of mind that comes with knowing your lost items have a better chance of being found!</p>
+        <button id="learnMoreBtn">Learn More</button>
+    </div>
+</section>
+
+
+<footer>
+    <div class="footer-container flex-center">
+        <div class="about group">
+            <h2>Lost and Found</h2>
+            <p>University of Louisiana at Monroe</p>
+            <a href="#about">About</a>
+        </div>
+        <div class="hr"></div>
+        <div class="info group">
+            <h3>More</h3>
+            <ul>
+                <li><a href="#Login">Login</a></li>
+                <li><a href="#Sign Up">Sign Up</a></li>
+                <li><a href="#About">About</a></li>
+                <li><a href="#Contact Us">Contact</a></li>
+            </ul>
+        </div>
+        <div class="hr"></div>
+        <div class="follow group">
+            <h3>Follow</h3>
+            <ul>
+                <li><a href=""><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href=""><i class="fab fa-instagram"></i></a></li>
+                <li><a href=""><i class="fab fa-twitter"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-copyright group">
+        <p>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp © 2024 Lost and Found. All right reserved.</p>
+    </div>
+</footer>
+
+<script>
+    window.addEventListener('scroll', function() {
+        const heroSection = document.querySelector('.hero');
+        const scrollPosition = window.scrollY;
+
+        if (scrollPosition > 0) {
+            heroSection.style.opacity = 1 - (scrollPosition / 800);
+        } else {
+            heroSection.style.opacity = 1;
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const learnMoreBtn = document.getElementById('learnMoreBtn');
+        const additionalContent = document.getElementById('additionalContent');
+        const benefitsList = document.getElementById('benefitsList');
+        const cta = document.getElementById('cta');
+
+        learnMoreBtn.addEventListener('click', function() {
+            learnMoreBtn.style.display = 'none';
+            additionalContent.classList.remove('hidden');
+            benefitsList.classList.remove('hidden');
+            cta.classList.remove('hidden');
+        });
+    });
+</script>
 </body>
 </html>
+

@@ -4,20 +4,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messages</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #007bff; /* Theme color for headers */
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        nav {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        li {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 20px;
+            width: calc(50% - 40px);
+            max-width: 300px;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        li:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        li img {
+            width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        li p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button, .chat-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover, .chat-button:hover {
+            background-color: #0056b3;
+        }
+        .chat-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
+
+    <nav>
+        <a href="{{ url_for('items') }}">Home</a>
+        <a href="{{ url_for('add_item') }}">Add Item</a>
+        <a href="{{ url_for('messages') }}">Messages</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    
     <h1>Messages</h1>
-    {% for item in items %}
+    <ul>
+        {% for item in items %}
         <h2>Claims for: {{ item.name }}</h2>
-        {% for claim in item.claims %}
-            <div>
+        {% if item.claims|length > 0 %}
+            {% for claim in item.claims %}
+            <li>
                 <!-- Fetch user information using claimer_id -->
                 {% set user = User.query.get(claim.claimer_id) %}
                 <p>Claimed by: {{ user.name }}</p> <!-- Display the name of the user -->
                 <p>Description: {{ claim.description }}</p>
                 <p>Status: {{ claim.status }}</p>
                 <p>Proof:</p>
-                <img src="{{ url_for('static', filename='proofs/' + claim.proof_image_path) }}" alt="Proof Image" style="width: 200px;">
+                <img src="{{ url_for('static', filename='proofs/' + claim.proof_image_path) }}" alt="Proof Image">
                 <!-- Approval form -->
                 <form action="{{ url_for('update_claim_status', claim_id=claim.id, status='approved') }}" method="post">
                     <button type="submit">Approve</button>
@@ -30,8 +128,14 @@
                 <!-- Redirect to chat route when the button is clicked -->
                 <a href="{{ url_for('chat', receiver=user.username) }}" class="chat-button">Chat with Claimer</a>
                 {% endif %}
-            </div>
+            </li>
+            {% endfor %}
+        {% else %}
+            <p>No claims have been made for this item.</p>
+        {% endif %}
+        {% else %}
+            <p>None</p>
         {% endfor %}
-    {% endfor %}
+    </ul>
 </body>
 </html>

@@ -4,7 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History of Claims</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+        nav {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .chat-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            padding: 8px 0;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -14,6 +68,7 @@
         <a href="{{ url_for('history') }}">History</a>
         <a href="{{ url_for('logout') }}">Logout</a>
     </nav>
+
     <h1>History of My Claims</h1>
     <ul>
         {% for claim in claims %}
@@ -25,7 +80,6 @@
             {% if claim.status == 'approved' %}
             <p>Poster Name: {{ claim.item.user.name }}</p>
             <p>Poster Email: {{ claim.item.user.email }}</p>
-            <!-- Redirect to chat route when the button is clicked -->
             <a href="{{ url_for('chat', receiver=claim.item.user.username) }}" class="chat-button">Chat with Poster</a>
             {% endif %}
         </li>
