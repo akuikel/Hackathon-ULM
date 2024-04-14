@@ -1,8 +1,5 @@
-# L&F : A LOST & FOUND Support Community
-> __CS50x Final Project Submission by @amWRit www.amritpuri.com.np__
+ A LOST & FOUND Community
 
-# Demo
-https://youtu.be/NwFCbfQZYqs
 
 # About L&F
 L&F is a social community to help people find their lost items or report found items. People can post about their lost or found items, browse through the L&F feed and check the listings. They can claim the lost item to be theirs or claim to have found a lost item.
@@ -85,17 +82,6 @@ I think Facebook could do this similar to the items __SOLD__ feature in their ma
 - I worked on the iterative development cycle, adding new changes in the new interation
 
 
-### MVP
-1. A website where user posts and the posts can be viewed in the __index page__.
-2. Implement the __Claim/Mark as Claimed__ feature.
-3. __History__ page to view user's posts and claims.
-4. Adding a __messaging__ feature.
-5. Add __actions on claims__ (denying, cancelling) and deleting posts.
-6. Add a post specific detail page which could be reached by clicking on __ID__ of the post.
-7. Add a __filter and search__ feature to the index page.
-8. Add __flash messages__ instead of the meme apology page wherever suited.
-
-
 # Challenges
 The biggest challenge for me was adding the image uploading functionality. All of the other functions that I wanted in the website were pretty much clear and straightforward to me.
 
@@ -132,8 +118,6 @@ The other not-so-big challenge was to be sure if I should include AJAX and JQUER
 
 
 # Platforms and Libraries
-- CS50 IDE
 - Flask
-- CS50 library
 - SQLite
 - Jinja
