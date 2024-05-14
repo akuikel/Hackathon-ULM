@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Claims</title>
+
+</head>
+<body>
+    <h1>My Claims</h1>
+    {% for claim in my_claims %}
+    <div>
+        <p>Item: {{ claim.item.name }}</p>
+        <p>Description: {{ claim.description }}</p>
+
+    </div>
+    {% endfor %}
+</body>
+</html>
